@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.anl.card.persistence.mapper.MessageTimestampMapper">
+    
+	<insert id="insert" useGeneratedKeys="true" keyProperty="agencyId">
+    <![CDATA[
+        INSERT INTO t_message_timestamp (
+        	agency_id,
+        	update_time
+        ) VALUES (
+        	#{agencyId},
+        	#{updateTime}
+        )
+    ]]>
+	</insert>
+
+	<update id="update" parameterType="com.anl.card.persistence.po.MessageTimestamp">
+        UPDATE t_message_timestamp 
+		<set>
+	        <if test="updateTime != null">
+	        	update_time = #{updateTime}
+	        </if>
+	    </set>
+        WHERE
+	        agency_id = #{agencyId}
+	</update>
+
+	<delete id="deleteById">
+        DELETE FROM t_message_timestamp WHERE
+        agency_id = #{agencyId}
+	</delete>
+
+	<select id="getById" resultType="com.anl.card.persistence.po.MessageTimestamp">
+		SELECT
+			*
+		FROM
+			t_message_timestamp 
+	    WHERE
+	        agency_id = #{agencyId} 
+	</select>
+
+	<!-- 查询条件where,如果有时间范围查询，参数必须是startTime 和 endTime -->
+	<sql id="where">
+		<where>
+			<if test="agencyId != null">
+				AND agency_id = #{agencyId}
+			</if>
+			<if test="updateTime != null">
+				AND update_time = #{updateTime}
+			</if>
+		</where>
+	</sql>
+	
+	<sql id="whereForPo">
+		<where>
+			<if test="agencyId != null">
+				AND agency_id = #{agencyId}
+			</if>
+		</where>
+	</sql>	
+
+	<select id="count" parameterType="java.util.Map" resultType="int">
+		SELECT count(*) FROM t_message_timestamp
+		<include refid="where" />
+	</select>
+
+	<select id="getListByMap" parameterType="java.util.Map" resultType="com.anl.card.persistence.po.MessageTimestamp">
+		SELECT 
+			*
+		FROM
+			t_message_timestamp 
+	    <include refid="where" />
+		<if test="startPage!= null">
+			limit #{startPage}, #{pageSize} 
+		</if>	
+	</select>
+	
+	<select id="getListByPo" parameterType="com.anl.card.persistence.po.MessageTimestamp" resultType="com.anl.card.persistence.po.MessageTimestamp">
+		SELECT 
+			*
+		FROM 
+			t_message_timestamp 
+	    <include refid="whereForPo" />
+	</select>
+</mapper>
+
