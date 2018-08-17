@@ -81,7 +81,7 @@ public class CardFlowDayUsedLogicImpl implements CardFlowDayUsedLogic {
         return true;
     }
 
-    //如果当天存在记录,直接修改
+    //如果当天存在记录,不做任何操作
     private void addDayFlow(Card card, FlowDailyData flowDailyData) throws Exception {
         if(flowDailyData==null || flowDailyData.getDayUsedFlow()==0){
             logger.info("日流量表未增加iccid={}的记录,本次查询之后的使用量为{}", card.getIccid(), flowDailyData.getDayUsedFlow());
@@ -98,12 +98,12 @@ public class CardFlowDayUsedLogicImpl implements CardFlowDayUsedLogic {
             userFlowUsedDayService.insert(userFlowUsedDay);
             logger.info("日流量表增加了iccid={}的记录,本次查询之后的使用量为{}", card.getIccid(), flowDailyData.getDayUsedFlow());
         } else {
-            userFlowUsedDay = userFlowUsedDays.get(0);
-            int oldDayFlow = userFlowUsedDay.getFlow();
-            userFlowUsedDay.setFlow(flowDailyData.getDayUsedFlow());
-            userFlowUsedDay.setCreateTime(new Date());
-            userFlowUsedDayService.update(userFlowUsedDay);
-            logger.info("日流量表存在iccid={}的记录,使用量为{},本次查询之后的使用量为{}", card.getIccid(), oldDayFlow, flowDailyData.getDayUsedFlow());
+//            userFlowUsedDay = userFlowUsedDays.get(0);
+//            int oldDayFlow = userFlowUsedDay.getFlow();
+//            userFlowUsedDay.setFlow(flowDailyData.getDayUsedFlow());
+//            userFlowUsedDay.setCreateTime(new Date());
+//            userFlowUsedDayService.update(userFlowUsedDay);
+//            logger.info("日流量表存在iccid={}的记录,使用量为{},本次查询之后的使用量为{}", card.getIccid(), oldDayFlow, flowDailyData.getDayUsedFlow());
         }
     }
 
