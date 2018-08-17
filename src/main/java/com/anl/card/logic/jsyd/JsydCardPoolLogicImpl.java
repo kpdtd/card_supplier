@@ -24,7 +24,7 @@ public class JsydCardPoolLogicImpl implements BaseLogic {
     public Object deal(Card card, Supplier supplier, SupplierInterfaceItem supplierInterfaceItem, Object... obj) throws Exception {
         String appId = JsonHelper.toMap(supplier.getEcExtensionInfo()).get("appId").toString();
         String tokenSign = supplier.getInvokeToken();
-        String interfaceTag = supplierInterfaceItem.getEcCode();//接口名称
+        String interfaceTag = supplierInterfaceItem.getInterfaceInfo();//接口名称
         RequestHeader header = new RequestHeader();
         header.setAppId(appId);
         header.setAccessToken(tokenSign);

@@ -1,5 +1,6 @@
 package com.anl.card.logic.jsyd;
 
+import com.anl.card.constant.Constant;
 import com.anl.card.dto.FlowDailyData;
 import com.anl.card.logic.BaseLogic;
 import com.anl.card.logic.jsyd.dto.CardFlowRequestData;
@@ -15,6 +16,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,7 +42,7 @@ public class JsydCardInfoTermLogicImpl implements BaseLogic {
         try {
             String appId = JsonHelper.toMap(supplier.getEcExtensionInfo()).get("appId").toString();
             String tokenSign = supplier.getInvokeToken();
-            String interfaceTag = item.getEcCode();
+            String interfaceTag = item.getInterfaceInfo();
             RequestHeader header = new RequestHeader();
             header.setAppId(appId);
             header.setAccessToken(tokenSign);
@@ -48,7 +50,11 @@ public class JsydCardInfoTermLogicImpl implements BaseLogic {
             header.setReqSeq(SeqIdGenerator.createJsydReqSeq());
             CardFlowRequestData data = new CardFlowRequestData();
             data.setServiceNumber(card.getMsisdn());
-            String month = DateUtil.getCurDateTime(DateUtil.DATE_FORMAT_MONTH);
+            String month =DateUtil.getCurDateTime(DateUtil.DATE_FORMAT_MONTH);
+            if(obj!=null && obj.length>0){
+                month = (String) obj[0];
+            }
+
             data.setCycle(month);
             header.setContent(data);
             String formData = JaxbUtil.convertToXml(header);
@@ -76,8 +82,18 @@ public class JsydCardInfoTermLogicImpl implements BaseLogic {
                         monthUsedFlow = Integer.parseInt(cardFlowMap.get("cumulate_value").toString());
                         flowDailyData.setCardId(card.getId());
                         flowDailyData.setMonth(month);
+                        //换算成M
+                        monthUsedFlow = monthUsedFlow / Constant.FLOW_UNIT + (monthUsedFlow % Constant.FLOW_UNIT > 0 ? 1 : 0);
                         flowDailyData.setMonthUsedFlow(monthUsedFlow);
                     }
+                    // 当前月用户在我平台的已使用总量
+                    Integer usedFlow = userFlowUsedDayService.getBeforeUsedFlow(card.getId(), DateUtil.getFristDayOfMonth(), DateUtil.string2Date(DateUtil.dateToString(new Date(), DateUtil.DATE_FORMAT_COMPACT)));
+                    usedFlow = (usedFlow == null ? 0 : usedFlow);
+                    int currentDayUsedFlow = 0;
+                    currentDayUsedFlow = monthUsedFlow - usedFlow;
+                    logger.info("江苏移动查询到的本月使用量为{}M,本月已记录的使用量{}M, " + ",今日用量{}M", monthUsedFlow, usedFlow, currentDayUsedFlow);
+                    flowDailyData.setDayUsedFlow(currentDayUsedFlow);
+                    flowDailyData.setDay(DateUtil.dateToString(DateUtil.afterNDaysDate(new Date(), -1), DateUtil.DATE_FORMAT_COMPACT));
                 }
             }
         } catch (Exception e) {

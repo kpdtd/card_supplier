@@ -52,6 +52,10 @@ public class UserFlowUsedDayServiceImpl implements UserFlowUsedDayService {
 	public int count(Map<String, Object> condition) throws SQLException {
 		return userFlowUsedDayMapper.count(condition);
 	}
-	
+
+	@Override
+	public Integer getBeforeUsedFlow(Integer cardId, Date fristDayOfMonth, Date currentDay) {
+		return userFlowUsedDayMapper.getBeforeUsedFlow(cardId,fristDayOfMonth,currentDay);
+	}
 }
 

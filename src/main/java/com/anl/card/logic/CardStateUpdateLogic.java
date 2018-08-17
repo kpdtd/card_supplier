@@ -8,6 +8,6 @@ import com.anl.card.persistence.po.Card;
  */
 public interface CardStateUpdateLogic {
 
-    public boolean deal(Card card,String action) throws Exception;
+    public boolean deal(Card card,String action,String operateInfo) throws Exception;
 
 }

@@ -228,11 +228,7 @@ public class DateUtil {
 
 	public static void main(String args[]) throws Exception {
 
-
-		System.out.println(5097764 / 1000 + (5097764 % 1000 > 0 ? 1 : 0));
-		System.out.println(10000-5098);
-		System.out.println(1030+ 596+ 756);
-		System.out.println();
+		System.out.println(DateUtil.getFristDayOfMonth());
 	}
 
 }

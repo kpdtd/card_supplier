@@ -30,7 +30,7 @@ public class JsydCardPoolLogicImplTest {
         supplier.setInvokeToken("vjU47Schsh1fL2D7oSql");
         supplier.setEcCode("250321176250250000");
         supplierInterfaceItem=new  SupplierInterfaceItem();
-        supplierInterfaceItem.setEcCode("OPEN_QRYINTERNETGRPPOOLGPRS");//接口名称
+        supplierInterfaceItem.setInterfaceInfo("OPEN_QRYINTERNETGRPPOOLGPRS");//接口名称
         supplierInterfaceItem.setUrl("http://221.178.251.182:80/internet_surfing");
         supplier.setEcExtensionInfo("{\"groupId\": \"51530885359\",\"appId\": \"109000000224\"}");
     }

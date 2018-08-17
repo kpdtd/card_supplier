@@ -41,7 +41,7 @@ public class JsydCardOnOffLogicImpl implements BaseLogic {
             String groupId = JsonHelper.toMap(supplier.getEcExtensionInfo()).get("groupId").toString();
             String appId = JsonHelper.toMap(supplier.getEcExtensionInfo()).get("appId").toString();
             String tokenSign = supplier.getInvokeToken();
-            String interfaceTag = item.getEcCode();
+            String interfaceTag = item.getInterfaceInfo();
             RequestHeader header = new RequestHeader();
             header.setAppId(appId);
             header.setAccessToken(tokenSign);

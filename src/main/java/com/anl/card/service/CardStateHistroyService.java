@@ -1,5 +1,6 @@
 package com.anl.card.service;
 
+import com.anl.card.persistence.po.Card;
 import com.anl.card.persistence.po.CardStateHistroy;
 /** 
  * 类名: CardStateHistroyService
@@ -7,5 +8,5 @@ import com.anl.card.persistence.po.CardStateHistroy;
  * 功能描述: 
  */
 public interface CardStateHistroyService extends BaseService<CardStateHistroy> {
-
+    void insertHistoryByIotCard(Card card, Integer originalState, String tiggerPoint) throws Exception;
 }

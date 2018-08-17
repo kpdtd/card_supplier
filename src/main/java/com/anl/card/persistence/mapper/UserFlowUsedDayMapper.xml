@@ -121,5 +121,17 @@
 			t_user_flow_used_day 
 	    <include refid="whereForPo" />
 	</select>
+	<select id="getBeforeUsedFlow" resultType="java.lang.Integer">
+		select
+		COALESCE(sum(flow),0)
+		FROM
+		t_user_flow_used_day
+		WHERE
+		card_id = #{cardId}
+		<![CDATA[
+			AND record_time >= #{monthFirstDay}
+			AND record_time < #{currentDay}
+		]]>
+	</select>
 </mapper>
 

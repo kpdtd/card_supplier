@@ -17,7 +17,7 @@ public class SupplierInterfaceItemServiceImpl implements SupplierInterfaceItemSe
 
 	@Autowired
 	SupplierInterfaceItemMapper supplierInterfaceItemMapper;
-	
+
 	@Override
 	public int insert(SupplierInterfaceItem record) throws SQLException {
 		return supplierInterfaceItemMapper.insert(record);
@@ -52,6 +52,10 @@ public class SupplierInterfaceItemServiceImpl implements SupplierInterfaceItemSe
 	public int count(Map<String, Object> condition) throws SQLException {
 		return supplierInterfaceItemMapper.count(condition);
 	}
-	
+
+	@Override
+	public SupplierInterfaceItem getItemBySupplierIdAndInterfaceId(Integer supplierId, Integer interfaceId) throws Exception {
+		return supplierInterfaceItemMapper.getItemBySupplierIdAndInterfaceId(supplierId, interfaceId);
+	}
 }
 

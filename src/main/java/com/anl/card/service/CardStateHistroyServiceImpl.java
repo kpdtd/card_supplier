@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Date;
 
+import com.anl.card.persistence.po.Card;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,6 +53,16 @@ public class CardStateHistroyServiceImpl implements CardStateHistroyService {
 	public int count(Map<String, Object> condition) throws SQLException {
 		return cardStateHistroyMapper.count(condition);
 	}
-	
+
+	@Override
+	public void insertHistoryByIotCard(Card card, Integer originalState, String tiggerPoint) throws Exception {
+		CardStateHistroy iotCardStateHistroy = new CardStateHistroy();
+		iotCardStateHistroy.setCardId(card.getId());
+		iotCardStateHistroy.setOriginalState(originalState);
+		iotCardStateHistroy.setTriggerPoint(tiggerPoint);
+		iotCardStateHistroy.setState(card.getCardState());
+		iotCardStateHistroy.setCreateTime(new Date());
+		insert(iotCardStateHistroy);
+	}
 }
 

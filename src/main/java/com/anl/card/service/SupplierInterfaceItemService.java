@@ -8,4 +8,5 @@ import com.anl.card.persistence.po.SupplierInterfaceItem;
  */
 public interface SupplierInterfaceItemService extends BaseService<SupplierInterfaceItem> {
 
+    SupplierInterfaceItem getItemBySupplierIdAndInterfaceId(Integer supplierId, Integer interfaceId) throws Exception;
 }

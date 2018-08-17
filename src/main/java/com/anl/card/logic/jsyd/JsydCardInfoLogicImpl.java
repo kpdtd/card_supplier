@@ -33,7 +33,7 @@ public class JsydCardInfoLogicImpl implements BaseLogic {
         try {
             String appId = JsonHelper.toMap(supplier.getEcExtensionInfo()).get("appId").toString();
             String tokenSign = supplier.getInvokeToken();
-            String interfaceTag = item.getEcCode();
+            String interfaceTag = item.getInterfaceInfo();
             RequestHeader header = new RequestHeader();
             header.setAppId(appId);
             header.setAccessToken(tokenSign);
